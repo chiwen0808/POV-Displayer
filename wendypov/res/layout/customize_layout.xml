@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:id="@+id/btn_send"
+        android:layout_marginLeft="51dp"
+        android:layout_alignTop="@+id/btn_reset"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:id="@+id/btn_back"
+        android:layout_alignTop="@+id/btn_reset"
+        android:layout_toRightOf="@+id/btn_reset"
+        android:layout_marginLeft="37dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset"
+        android:id="@+id/btn_reset"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/btn_send"
+        android:layout_marginLeft="37dp" />
+    
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Smile"
+        android:id="@+id/btn_smile"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/btn_back"
+        android:layout_marginLeft="37dp" />
+    
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="nctu"
+        android:id="@+id/btn_nctu"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/btn_smile"
+        android:layout_marginLeft="37dp" />
+
+    <GridLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/btn_send"
+        android:layout_alignParentRight="true"
+        android:id="@+id/gird_customize"
+        android:rowCount="8"
+        android:columnCount="24"
+        android:orientation="horizontal"></GridLayout>
+</RelativeLayout>
