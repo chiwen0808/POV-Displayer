@@ -21,7 +21,7 @@
 // ------------------------------------------------------------
  
 //============================================================
-// 01/2015 modified by Wendy Huang by using Arduino Yun & normal fan
+// 01/2015 modified by Wendy Huang by using Arduino Yun & desk fan
 // ------------------------------------------------------------
  
 #include <Bridge.h>
@@ -41,15 +41,20 @@ const int charWidth = 5;
 
 // sensor setup
 // hall sensor for future use
-const int sensorPIN = A0;  // define the Arduino sensor pin
-int sensVal;  // variable to store the value coming from the sensor
+//const int sensorPIN = A0;  // define the Arduino sensor pin
+//int sensVal;  // variable to store the value coming from the sensor
+
+// for yun connection
 int count=0;
-String tmp_str;
- 
+
+//delay time setup
+long colDelayTime = 1140; // delay time before writing next char's column.
+long charDelayTime = 2500; // delay time before writing the next character.
+
 const long debounceTime = 120; // delay time before writing the next character.
-long colDelayTime = 2500; // delay time before writing next char's column.
 long lastSavePointTime = 0; // used for storing a savepoint time (achieve time measurement).
- 
+
+
 YunServer server;
 
 void setup()
@@ -57,7 +62,7 @@ void setup()
   //setTime(int hr,int min,int sec,int day, int month, int yr);
   //2015/1/16 23:36:16
   //setTime(23,51,30,26,1,2015);
-  pinMode(13, OUTPUT);
+  //pinMode(13, OUTPUT);
 
   for (int i = 0; i < charHeight; i++)
    pinMode(LEDpins[i], OUTPUT);  
@@ -70,7 +75,8 @@ void setup()
   
   //for (int i = 0; i < charHeight; i++)
   //  pinMode(LEDpins[i], HIGH); 
-  digitalWrite(13, HIGH);   // set the LED on
+  //digitalWrite(13, HIGH);   // set the LED off
+  //digitalWrite(13, LOW);   // set the LED on
 }
 int client_cmd=0;
 String strcontent;
@@ -80,8 +86,7 @@ void loop()
   
   // Get clients coming from server
   YunClient client = server.accept();
-  
-  
+ 
   // There is a new client?
   if (client) {
     Serial.println("receive the new event");
@@ -97,11 +102,19 @@ void loop()
   while(count<10&&client_cmd!=0)
   {
     count++;
-    //Serial.println(count);
-    //if (abs(millis() - lastSavePointTime) > debounceTime) {
+    Serial.println(count);
+    Serial.println(millis());
+    Serial.println(" 1microseconds");
+
+    
+    //if (abs(millis() - lastSavePointTime) > debounceTime) //{
     //  // store a new savepoint time for future reference.
     //  lastSavePointTime = millis();
-      
+    
+    //sensVal = digitalRead(sensorPIN);
+    //Serial.println(sensVal);
+    //if(sensVal==0)
+    { //process 
       if(client_cmd==1)
       {
         HandleText(strcontent);
@@ -113,7 +126,6 @@ void loop()
       else if(client_cmd==3)
       {
         int hour, minu, sec, day, month, yr;
-        //setTime(int hr,int min,int sec,int day, int month, int yr);
         hour=strcontent.substring(0,2).toInt();
         minu=strcontent.substring(2,4).toInt();
         sec=strcontent.substring(4,6).toInt();
@@ -127,22 +139,18 @@ void loop()
       {
         colDelayTime=strcontent.toInt();
       }
-    //}
- }
- if(count==10) count=0;
-  
-
-  delay(50); // Poll every 50ms
-  /*
- 
-  digitalWrite(13, LOW);   // set the LED on
+      else if(client_cmd==5)
+      {
+        charDelayTime=strcontent.toInt();
+      }
+     
+    }
     
 
-  for (int k=0; k<sizeof(textString); k++)
-  {
-    printLetterboven(textString[k]);
-  }
-  */
+ }
+ if(count==10) count=0;
+ //delay(10);  //Ben debug
+  
 }
 String klok()
 {
@@ -158,11 +166,14 @@ String klok()
     str2 = "0"+String(minute());
   else
     str2 = String(minute());
+  /*
   if (second() < 10)
     str3 = "0"+String(second());
   else
     str3 = String(second());
-  result = str1+":"+str2+":"+str3;
+  result = str1+":"+str2+":"+str3;*/
+  result = str1+":"+str2+" ";
+  
   //result = String(hour())+":"+String(minute())+":"+String(second());
   return result;
 }
@@ -176,41 +187,28 @@ void printLetterboven(char ch)
     // subtract the space character (converts the ASCII number to the font index number)
     ch -= 32;
     // step through each byte of the character array
-    for (int i=0; i<charWidth; i++) {
-      byte b = font[ch][i];
-      //Serial.println(b,HEX);
-      // ventilator draai tegen de klok in
+    for (int i=0; i<charWidth; i++) { // {0x3e,0x51,0x49,0x45,0x3e}   // 0 0x30 48
+      byte b = font[ch][i]; //i=0, 0x3e, i=1, 0x51, i=2, 0x49, i=3, 0x45, i=4, 0x3e
+      //Serial.println(b,HEX); //0x3e
+    
+      // bit shift through the byte and output it to the pin
       for (int j=0; j<charHeight; j++) {
-        digitalWrite(LEDpins[charHeight-1-j], !bitRead(b,j));
+        digitalWrite(LEDpins[charHeight-1-j], !bitRead(b,j));  //digitalWrite(LEDpins[charHeight-1-j], !!!(b & (1 << j)));
         //Serial.print(!bitRead(b,j));
-        //digitalWrite(LEDpins[v-1-j], !!!(b & (1 << j)));
-        //Serial.print("j\t");
-        //Serial.print(!!(b & (1 << j)));
-        //Serial.print("\t test\t");
-        //Serial.println(!!!(b & (1 << j)));
       }
-      delayMicroseconds(900);  
-      //delay(1);
-       // wait some time between columns.
-       //delayMicroseconds(colDelayTime);
+      // space between columns
+      delayMicroseconds(colDelayTime);  
+      //delay(colDelayTime);
     }
     //clear the LEDs
     for (int i = 0; i < charHeight; i++)
-    {
-      digitalWrite(LEDpins[i] , HIGH);
-      //delay(1000);
-      //Serial.println(LEDpins[i]);
-    }
-    
+      digitalWrite(LEDpins[i] , HIGH); // set the LED off
+   
     // space between letters
-    //delayMicroseconds(2500);
-    //delay(3);
-    // wait some time before next character.
-    delayMicroseconds(colDelayTime);
-    
+    delayMicroseconds(charDelayTime);
 }  
  
-void printByte(String pixel)  //like 05 A0
+void printByte(String pixel)  //like 004428120101020101122844000000000000000000000000
  {
    for(int i=0;i<pixel.length();i+=2)
    {
@@ -220,50 +218,31 @@ void printByte(String pixel)  //like 05 A0
      //Serial.print("b:");
      //Serial.println(b,HEX);
      // bit shift through the byte and output it to the pin
-     
      for (int j=0; j<charHeight; j++) {
        digitalWrite(LEDpins[j], !!!(b & (1 << j)));
-       
-       //DEBUG
-       /*
-       Serial.print("Num\t");
-       Serial.print(i,HEX);
-       Serial.print("\t");
-       Serial.println(j);
-       Serial.println(!!(b & (1 << j)));
-       */
      }
-     delayMicroseconds(900);
-     // space between next img
-     //delayMicroseconds(2500);
-     //delay(3);
+     delayMicroseconds(colDelayTime);
+     //Serial.println(millis());
+     //Serial.println(" col microseconds");
    }
   
    //clear the LEDs
     for (int i = 0; i < charHeight; i++)
       digitalWrite(LEDpins[i] , HIGH);
    
-   // space between columns
-   //delayMicroseconds(500);
-   //delay(1);
-   delayMicroseconds(colDelayTime);
+   delayMicroseconds(charDelayTime);
+   
+   //Serial.println(millis());
+   //Serial.println(" char microseconds");
  }
  
  void HandleDraw(String content)
  {
-   //digitalWrite(13, LOW);   // set the LED on  
-   sensVal = digitalRead(sensorPIN);
-   //Serial.println(sensVal);
-   sensVal=0;  //For DEBUG ONLY
-   if(sensVal==0)
-   {
-     printByte(content);
-   }
+    printByte(content);
  }
 
 void HandleText(String content)
 {
-  //digitalWrite(13, LOW);   // set the LED on
   for (int k=0; k<content.length(); k++){
        //Serial.println(content[k]);
        printLetterboven(content[k]);
@@ -272,7 +251,7 @@ void HandleText(String content)
 
 void HandleClock(String content)
 {
-  //digitalWrite(13, LOW);   // set the LED on
+  String tmp_str;
   tmp_str=content;
   tmp_str=tmp_str+" ";
   for (int k=0; k<tmp_str.length(); k++){
@@ -294,8 +273,11 @@ String process(YunClient client, int *cmd) {
   else if(command=="CLOCK")
     *cmd=3;
     
-   else if(command=="DELAY")
+  else if(command=="COL")
     *cmd=4;
+    
+   else if(command=="CHAR")
+    *cmd=5;
     
   return content;
 

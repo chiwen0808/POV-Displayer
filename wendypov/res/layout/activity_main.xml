@@ -81,13 +81,20 @@
         android:layout_toRightOf="@+id/button7"
         android:text="Clock!" />
         
-         <Button
+        <Button
         android:id="@+id/button9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/button8"
         android:layout_toRightOf="@+id/button8"
-        android:text="delay!" />
+        android:text="col!" />
+        <Button
+        android:id="@+id/button10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button9"
+        android:layout_toRightOf="@+id/button9"
+        android:text="char!" />
         
        
     <EditText
@@ -98,7 +105,7 @@
         android:layout_alignLeft="@+id/button1"
         android:layout_marginBottom="18dp"
         android:ems="10"
-        android:text="IoT NCTU " >
+        android:text="N C T U " >
 
         <requestFocus />
     </EditText>

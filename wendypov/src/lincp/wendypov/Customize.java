@@ -105,26 +105,6 @@ public class Customize extends Activity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-            	//f80442e945050545
-            	//e94204f800000000
-            	//0000000000000000
-            	//000030787c3e1f3e
-
-            	//byte smile_pic[] = new byte[]{
-            	//		(byte)0xf8, (byte)0x04, (byte)0x42, (byte)0xe9, (byte)0x45, (byte)0x05, (byte)0x05, (byte)0x45,
-            	//		(byte)0xe9, (byte)0x42, (byte)0x04, (byte)0xf8, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00,
-            	//		(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00
-            	//};
-            	//byte smile_pic[] = new byte[]{
-            	//		(byte)0xf8, (byte)0x04, (byte)0x42, (byte)0xe9, (byte)0x45, (byte)0x05, (byte)0x05, (byte)0x45,
-            	//		(byte)0xe9, (byte)0x42, (byte)0x04, (byte)0xf8, (byte)0x00, (byte)0x00, (byte)0x30, (byte)0x78,
-            	//		(byte)0x7c, (byte)0x3e, (byte)0x1f, (byte)0x3e, (byte)0x7c, (byte)0x78, (byte)0x30, (byte)0x00
-            	//};
-            	//byte smile_pic[] = new byte[]{
-            	//		(byte)0x00, (byte)0x44, (byte)0x28, (byte)0x12, (byte)0x01, (byte)0x01, (byte)0x12, (byte)0x28,
-            	//		(byte)0x44, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x30, (byte)0x78,
-            	//		(byte)0x7c, (byte)0x3e, (byte)0x1f, (byte)0x3e, (byte)0x7c, (byte)0x78, (byte)0x30, (byte)0x00
-            	//};
             	byte smile_pic[] = new byte[]{
             			(byte)0x00, (byte)0x44, (byte)0x28, (byte)0x12, (byte)0x01, (byte)0x01, (byte)0x12, (byte)0x28,
             			(byte)0x44, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x30, (byte)0x78,
@@ -151,9 +131,9 @@ public class Customize extends Activity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
             	byte nctu_pic[] = new byte[]{
-            			(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x28, (byte)0x29, (byte)0xb5, (byte)0x62, (byte)0x35,
-            			(byte)0x29, (byte)0x28, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x09, (byte)0x0a, (byte)0x0c,
-            			(byte)0x78, (byte)0x0c, (byte)0x0a, (byte)0x09, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00
+            			(byte)0x00, (byte)0x00, (byte)0x04, (byte)0x29, (byte)0x3a, (byte)0xa4, (byte)0x64, (byte)0x3a,
+            			(byte)0x29, (byte)0x04, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x21, (byte)0x22,
+            			(byte)0x24, (byte)0xf8, (byte)0x24, (byte)0x22, (byte)0x21, (byte)0x00, (byte)0x00, (byte)0x00
             	};
                 for(int i=0;i<columnCount;i++)
                 {

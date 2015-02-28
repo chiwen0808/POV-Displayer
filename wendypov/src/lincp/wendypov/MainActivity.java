@@ -45,7 +45,8 @@ public class MainActivity extends Activity {
 	//private Button btnLa;
 	private Button btnDraw;
 	private Button btnClock;
-	private Button btnDelayControl;
+	private Button btnDelayCol;
+	private Button btnDelayChar;
 	private EditText textToShow;
 	
 	final int wrequestCode =100;//w++
@@ -64,7 +65,9 @@ public class MainActivity extends Activity {
 		//btnLa = (Button) findViewById(R.id.button6);
 		btnDraw = (Button) findViewById(R.id.button7);
 		btnClock = (Button) findViewById(R.id.button8);
-		btnDelayControl = (Button) findViewById(R.id.button9);
+		btnDelayCol = (Button) findViewById(R.id.button9);
+		btnDelayChar = (Button) findViewById(R.id.button10);
+		
 		textToShow = (EditText) findViewById(R.id.editText1);
 		
 		btnTextSend.setOnClickListener(new Button.OnClickListener() {
@@ -95,10 +98,16 @@ public class MainActivity extends Activity {
 				mQueue.offer("CLOCK/"+date);
 			}
 		});
-        btnDelayControl.setOnClickListener(new Button.OnClickListener() {
+        btnDelayCol.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				mQueue.offer("DELAY/"+textToShow.getText().toString());
+				mQueue.offer("COL/"+textToShow.getText().toString());
+			}
+		});
+        btnDelayChar.setOnClickListener(new Button.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				mQueue.offer("CHAR/"+textToShow.getText().toString());
 			}
 		});
 	}
